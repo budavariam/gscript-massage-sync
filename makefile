@@ -2,7 +2,7 @@ SHELL := /bin/bash
 .PHONY: start login
 
 start:
-	npx ***REMOVED***
+	npx clasp push --watch
 
 login:
-	npx ***REMOVED***
+	npx clasp login
