@@ -8,11 +8,14 @@ namespace MUtils {
     }
 
     export function shouldIgnoreDay(i: number): [boolean, Date] {
+        const current = new Date();
         const monday = _getMondayOfCurrentWeek()
         const today = new Date()
-        const current = new Date();
         current.setDate(monday.getDate() + i);
-        return [today.getDay() > current.getDay(), current]
+        const ignore = Config.flags.ignorePastDays
+            ? today.getDay() > current.getDay()
+            : false
+        return [ignore, current]
     }
 
     export function createDate(hour: number, minute: number, daysFromMonday: number): Date {
