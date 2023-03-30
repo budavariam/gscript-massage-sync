@@ -1,0 +1,12 @@
+{
+    "scriptId":"1oV-5r9u4qi-xbiGSMmuPo_I352Rh0-bKOwAzBZGFpEidmoQJFCjneqZ8",
+    "rootDir":"src",
+    "fileExtension": "ts",
+    "filePushOrder": [
+        "sheet.ts",
+        "calendar.ts",
+        "config.ts",
+        "code.ts"
+    ]
+
+}

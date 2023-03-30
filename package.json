@@ -18,5 +18,8 @@
   "homepage": "https://github.com/budavariam/gscript-massage-sync#readme",
   "devDependencies": {
     "@google/clasp": "^2.4.2"
+  },
+  "dependencies": {
+    "@types/google-apps-script": "^1.0.59"
   }
 }
