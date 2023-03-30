@@ -15,7 +15,7 @@ namespace MCalendar {
     function _createGuestList(name: string, email: string): any {
         if (name in Config.nicknameMapping) {
             let mailaddress = Config.nicknameMapping[name]
-            Logger.log("SEND EVENT TO ", mailaddress)
+            Logger.log("SEND EVENT TO %s", mailaddress)
             return { guests: mailaddress }
         }
         return { guests: "" };
@@ -58,15 +58,15 @@ namespace MCalendar {
         for (let i = 0; i < 5; i++) {
             let [shouldIgnore, current] = MUtils.shouldIgnoreDay(i)
             if (shouldIgnore) {
-                Logger.log(`Ignoring #${i + 1} day of the week`)
+                Logger.log("Ignoring #%d day of the week", i + 1)
                 collectEvents.push([])
                 continue
             }
             let events = calendar.getEventsForDay(current);
-            Logger.log('Number of events: ' + events.length);
+            Logger.log('Number of events: %d', events.length);
             collectEvents.push(events)
         }
-        Logger.log("Found events per day: %o", collectEvents.map(l => l.length))
+        Logger.log("Found events per day: %s", collectEvents.map(l => l.length).join(","))
 
         let eventsToAdd = []
         let eventsToDelete = []

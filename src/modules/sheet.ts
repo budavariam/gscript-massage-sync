@@ -37,7 +37,7 @@ namespace MSheet {
                 let msgDayData = massagistRanges[day]
                 let [shouldIgnore, _] = MUtils.shouldIgnoreDay(msgDayData.day - 1)
                 if (shouldIgnore) {
-                    Logger.log(`${massagistName}: Ignoring #${msgDayData.day} day of the week`)
+                    Logger.log("%s: Ignoring #%d day of the week", massagistName, msgDayData.day)
                     continue
                 }
                 const timeRange = sheet.getRange(msgDayData.range);
