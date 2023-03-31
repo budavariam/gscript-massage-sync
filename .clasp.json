@@ -3,9 +3,11 @@
     "rootDir":"src",
     "fileExtension": "ts",
     "filePushOrder": [
+        "secret.ts",
+        "config.ts",
+        "utils.ts",
         "sheet.ts",
         "calendar.ts",
-        "config.ts",
         "code.ts"
     ]
 

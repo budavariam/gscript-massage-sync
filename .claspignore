@@ -1,1 +1,2 @@
-config.tmpl.ts
+secret.tmpl
+types.ts
