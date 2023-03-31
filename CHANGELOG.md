@@ -36,5 +36,6 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 - allowlist for users
 - magic values for the ranges instead of dynamic
 
-[Unreleased]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.1...HEAD
+[Unreleased]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/budavariam/gscript-massage-sync/releases/tag/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/budavariam/gscript-massage-sync/releases/tag/v0.0.1
