@@ -19,7 +19,6 @@ namespace T {
     export type SheetInfo = {
         massagistName: string,
         name: string,
-        email: string,
         day: number,
         time: T.ParsedTime,
     }

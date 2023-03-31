@@ -50,7 +50,7 @@ namespace MUtils {
     }
 
     export function getMailAddressForName(name: string): string {
-        let prefix = MUtils.removeAccents(name.toLowerCase())
+        const prefix = MUtils.removeAccents(name.toLowerCase())
         return `${prefix}@${Config.companyEmailDomain}`
     }
 

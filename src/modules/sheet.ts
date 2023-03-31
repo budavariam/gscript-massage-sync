@@ -45,17 +45,15 @@ namespace MSheet {
                 const times = timeRange.getValues();
                 const names = nameRange.getValues();
                 for (let y = 0; y < times.length; y++) {
-                    let time = times[y][0];
-                    if (time.indexOf("dőpontra vár") > -1) {
-                        console.warn("Hit an block in times: ", time)
+                    let time = String(times[y][0]);
+                    if (time.includes("dőpontra vár")) {
+                        console.warn("Hit a block in times: ", time)
                         break
                     }
-                    const name = names[y][0];
-                    const email = MUtils.getMailAddressForName(name)
+                    const name = String(names[y][0]);
                     sheetInfo.push({
                         massagistName: massagistName,
                         name: name,
-                        email: email,
                         day: msgDayData.day,
                         time: MUtils.parseTime(time),
                     })

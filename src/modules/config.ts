@@ -5,6 +5,7 @@ namespace Config {
     export const nicknameMapping = Secret.nicknameMapping;
     export const tempMasseurData = Secret.tempMasseurData
     export const flags = {
-        ignorePastDays: false
+        ignorePastDays: true,
+        InviteEveryoneByEmailPrefix: false,
     }
 }

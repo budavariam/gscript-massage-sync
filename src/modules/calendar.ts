@@ -12,17 +12,19 @@ namespace MCalendar {
     function _markMassagist(massagist: string): string {
         return `- ${massagist} -`
     }
-    function _createGuestList(name: string, email: string): any {
+    function _createGuestList(name: string): any {
+        let mailaddress = ""
         if (name in Config.nicknameMapping) {
-            let mailaddress = Config.nicknameMapping[name]
+            mailaddress = Config.nicknameMapping[name]
+            Logger.log("SEND EVENT TO '%s': '%s'", name, mailaddress)
+        } else if (Config.flags.InviteEveryoneByEmailPrefix) {
+            mailaddress = MUtils.getMailAddressForName(name)
             Logger.log("SEND EVENT TO %s", mailaddress)
-            return { guests: mailaddress }
         }
-        return { guests: "" };
+        return { guests: mailaddress };
     }
 
-
-    function _calcEventDiff(title: string, startTime: Date, endTime: Date, eventsForDay: GoogleAppsScript.Calendar.CalendarEvent[], massagist: string, guest: any): [string, T.EventsToDelete] {
+    function _calcEventDiff(title: string, startTime: Date, endTime: Date, eventsForDay: GoogleAppsScript.Calendar.CalendarEvent[], massagist: string): [string, T.EventsToDelete] {
         if (!eventsForDay || eventsForDay.length === 0) {
             return [EVENT_DIFF_STATUS.FOUND_EMPTY_SLOT, null]
         }
@@ -75,14 +77,14 @@ namespace MCalendar {
             let startTime = MUtils.createDate(time.startH, time.startM, line.day - 1)
             let endTime = MUtils.createDate(time.endH, time.endM, line.day - 1)
             let title = _createEventTitle(line.massagistName, line.name)
-            let options = _createGuestList(line.name, line.email)
+            let options = _createGuestList(line.name)
             let currEvt: T.EventToAdd = {
                 startTime: startTime,
                 endTime: endTime,
                 title: title,
                 options: options
             };
-            let [eventDiff, otherEvts] = _calcEventDiff(title, startTime, endTime, collectEvents[line.day - 1], line.massagistName, line.email)
+            let [eventDiff, otherEvts] = _calcEventDiff(title, startTime, endTime, collectEvents[line.day - 1], line.massagistName)
             // Logger.log("evtInfo", title, startTime, endTime, eventDiff)
             switch (eventDiff) {
                 case EVENT_DIFF_STATUS.HAS_DIFFERENT_EVENT: {
