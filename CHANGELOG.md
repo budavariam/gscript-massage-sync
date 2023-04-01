@@ -27,6 +27,8 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 ## Changed
 
 - separate files into namespaces
+- skip code execution after thursday
+- get week info for sheets
 
 ## [0.0.1] - 2023-03-29
 

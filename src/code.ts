@@ -1,4 +1,8 @@
 function main() {
+  if (Config.flags.skipAfterThursday && MCalendar.isAfterThursday()) {
+    Logger.log("Skip code execution from friday to the weekend...")
+    return
+  }
   const calendar = CalendarApp.getCalendarById(Config.calendarId);
   const sheet = MSheet.getSheetById(Config.sheetId)
 

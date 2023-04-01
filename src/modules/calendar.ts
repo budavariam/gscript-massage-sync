@@ -5,6 +5,13 @@ namespace MCalendar {
         ALREADY_ADDED: "alreadyAdded",
     }
 
+    export function isAfterThursday() {
+        const today = new Date();
+        const dayOfWeek = today.getDay(); 
+        // Sunday = 0, Monday = 1, etc.
+        return dayOfWeek == 0 || dayOfWeek > 4;
+    }
+
     function _createEventTitle(massagist: string, name: string): string {
         return `Masszázs ${_markMassagist(massagist)} ${name}`
     }

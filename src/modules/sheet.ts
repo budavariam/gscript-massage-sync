@@ -28,7 +28,17 @@ namespace MSheet {
 
     }
 
+    function _getCheetWeekInfo(sheet) {
+        try {
+            const dateRangeValues = sheet.getRange(Config.DateRange).getValues();
+            console.log(dateRangeValues.join(";"))
+        } catch (e) {
+            console.error("Failed to get week info", e)
+        }
+    }
+
     export function parseSheetInfo(sheet: GoogleAppsScript.Spreadsheet.Sheet, masseurs: T.MasseurData[]): T.SheetInfo[] {
+        _getCheetWeekInfo(sheet)
         let sheetInfo: T.SheetInfo[] = [];
         for (let i = 0; i < masseurs.length; i++) {
             const massagist = masseurs[i];
