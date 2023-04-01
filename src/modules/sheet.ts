@@ -1,7 +1,5 @@
 
 namespace MSheet {
-    const EXCLUDENAMES = "Sheet"
-
     /** Day 1: monday, Day 5: friday */
     export function parseMasseursFromSheet(_sheet: GoogleAppsScript.Spreadsheet.Sheet): T.MasseurData[] {
         // TODO: get it automatically
@@ -12,10 +10,13 @@ namespace MSheet {
         const sheetFile = SpreadsheetApp.openById(sheetId)
         const possibleSheets = sheetFile.getSheets()
             .filter(sheet => !sheet.isSheetHidden())
-            .filter(sheet => !sheet.getSheetName().includes(EXCLUDENAMES))
+            .filter(sheet => {
+                const sheetName = sheet.getSheetName()
+                return !Config.EXCLUDENAMES.some(exclude => sheetName.includes(exclude))
+            })
             .map(sheet => sheet.getSheetName())
         if (possibleSheets.length > 1) {
-            console.warn("Inconclusive which one to select, chose the first one", possibleSheets)
+            console.warn("Inconclusive which one to select, chose the first one %s", possibleSheets.join(","))
         } else if (possibleSheets.length == 0) {
             console.error("No matching sheet found... exiting")
             throw new Error("no sheet found")

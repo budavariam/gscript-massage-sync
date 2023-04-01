@@ -10,6 +10,8 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 
 ## [Unreleased]
 
+- Make it possible to exclude by multiple keywords
+
 ## [0.0.2] - 2023-03-31
 
 ## Added
@@ -37,5 +39,5 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 - magic values for the ranges instead of dynamic
 
 [Unreleased]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.2...HEAD
-[0.0.2]: https://github.com/budavariam/gscript-massage-sync/releases/tag/v0.0.1...v0.0.2
+[0.0.2]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/budavariam/gscript-massage-sync/releases/tag/v0.0.1
