@@ -1,3 +1,5 @@
+/// <reference path="../types.ts" />
+
 namespace MUtils {
     function _getMondayOfCurrentWeek(): Date {
         const today = new Date();

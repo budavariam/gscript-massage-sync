@@ -11,6 +11,9 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 ## [Unreleased]
 
 - Make it possible to exclude by multiple keywords
+- skip code execution after thursday
+- fix file build order
+- get week info for sheets
 
 ## [0.0.2] - 2023-03-31
 
@@ -27,8 +30,6 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 ## Changed
 
 - separate files into namespaces
-- skip code execution after thursday
-- get week info for sheets
 
 ## [0.0.1] - 2023-03-29
 

@@ -1,3 +1,7 @@
+/// <reference path="../types.ts" />
+/// <reference path="config.ts" />
+/// <reference path="utils.ts" />
+
 namespace MCalendar {
     const EVENT_DIFF_STATUS = {
         FOUND_EMPTY_SLOT: "foundEmptySlot",

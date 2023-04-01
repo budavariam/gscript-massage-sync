@@ -1,3 +1,6 @@
+/// <reference path="../types.ts" />
+/// <reference path="config.ts" />
+/// <reference path="utils.ts" />
 
 namespace MSheet {
     /** Day 1: monday, Day 5: friday */

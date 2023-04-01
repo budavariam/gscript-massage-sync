@@ -1,3 +1,7 @@
+/// <reference path="modules/config.ts" />
+/// <reference path="modules/calendar.ts" />
+/// <reference path="modules/sheet.ts" />
+
 function main() {
   if (Config.flags.skipAfterThursday && MCalendar.isAfterThursday()) {
     Logger.log("Skip code execution from friday to the weekend...")

@@ -1,3 +1,5 @@
+/// <reference path="secret.ts" />
+
 namespace Config {
     export const calendarId = Secret.calendarId;
     export const sheetId = Secret.sheetId;
