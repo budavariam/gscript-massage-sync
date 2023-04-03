@@ -18,6 +18,7 @@ namespace MSheet {
                 return !Config.EXCLUDENAMES.some(exclude => sheetName.includes(exclude))
             })
             .map(sheet => sheet.getSheetName())
+        // TODO: add smarter decision, or give back all
         if (possibleSheets.length > 1) {
             console.warn("Inconclusive which one to select, chose the first one %s", possibleSheets.join(","))
         } else if (possibleSheets.length == 0) {
@@ -31,17 +32,24 @@ namespace MSheet {
 
     }
 
-    function _getCheetWeekInfo(sheet) {
+    export function getSheetWeekInfo(sheet) {
         try {
-            const dateRangeValues = sheet.getRange(Config.DateRange).getValues();
-            console.log(dateRangeValues.join(";"))
+            const dateRangeValues = sheet
+                .getRange(Config.DateRange)
+                .getValues()[0]
+                .map(date => MUtils.parseDateFromString(date))
+                .filter(x => x);
+            return [MUtils.isCurrentWeek(dateRangeValues), dateRangeValues]
         } catch (e) {
             console.error("Failed to get week info", e)
         }
     }
 
     export function parseSheetInfo(sheet: GoogleAppsScript.Spreadsheet.Sheet, masseurs: T.MasseurData[]): T.SheetInfo[] {
-        _getCheetWeekInfo(sheet)
+        const [currentWeek, _dates] = getSheetWeekInfo(sheet)
+        if (!currentWeek) {
+            console.warn("Skip other week...", _dates)
+        }
         let sheetInfo: T.SheetInfo[] = [];
         for (let i = 0; i < masseurs.length; i++) {
             const massagist = masseurs[i];

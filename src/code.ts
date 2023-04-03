@@ -17,3 +17,8 @@ function main() {
   MCalendar.deleteEventsFromCalendar(eventsToDelete);
   MCalendar.addEventsToCalendar(calendar, eventsToAdd);
 }
+
+function dev() {
+  const sheet = MSheet.getSheetById(Config.sheetId)
+  MSheet.getSheetWeekInfo(sheet)
+}

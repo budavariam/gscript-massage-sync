@@ -76,4 +76,49 @@ namespace MUtils {
 
         return asciiStr;
     }
+
+    export function parseDateFromString(rawText: string) {
+        try {
+            const dateRegex = /^([a-zúéáőóüöí]+)\s*(\d+)\.?$/i;
+            const [, month, day] = dateRegex.exec(rawText.toLocaleLowerCase());
+            const monthNames = {
+                "január": 0,
+                "február": 1,
+                "március": 2,
+                "április": 3,
+                "május": 4,
+                "június": 5,
+                "július": 6,
+                "augusztus": 7,
+                "szeptember": 8,
+                "október": 9,
+                "november": 10,
+                "december": 11,
+            };
+            const monthNumber = monthNames[month.toLowerCase()];
+
+            const date = new Date();
+            date.setFullYear(new Date().getFullYear(), monthNumber, parseInt(day));
+            return date
+        } catch (e) {
+            return null
+        }
+    }
+
+    export function isCurrentWeek(dates: Date[]): boolean {
+        const currentDate = new Date();
+        const currentDay = currentDate.getDay();
+        // Calculate the start and end dates of the current week
+        const weekStartDate = new Date(currentDate);
+        weekStartDate.setDate(currentDate.getDate() - currentDay);
+        weekStartDate.setHours(0, 0, 0, 0);
+        const weekEndDate = new Date(currentDate);
+        weekEndDate.setDate(currentDate.getDate() + (6 - currentDay));
+        weekEndDate.setHours(23, 59, 59, 999);
+        // Validate each date in the list
+        const isCurrentWeek = dates.every((date) => {
+            return date >= weekStartDate && date <= weekEndDate;
+        });
+        return isCurrentWeek
+    }
 }
