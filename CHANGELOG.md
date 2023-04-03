@@ -10,6 +10,9 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 
 ## [Unreleased]
 
+
+## [0.0.3] - 2023-04-03
+
 - Make it possible to exclude by multiple keywords
 - skip code execution after thursday
 - fix file build order
@@ -43,6 +46,7 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 - allowlist for users
 - magic values for the ranges instead of dynamic
 
-[Unreleased]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/budavariam/gscript-massage-sync/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/budavariam/gscript-massage-sync/releases/tag/v0.0.1
