@@ -20,7 +20,10 @@ namespace T {
         massagistName: string,
         name: string,
         day: number,
-        time: T.ParsedTime,
+        _time: T.ParsedTime,
+        startTime: Date,
+        endTime: Date,
+        isFree: boolean,
     }
     export type EventToAdd = {
         startTime: Date,

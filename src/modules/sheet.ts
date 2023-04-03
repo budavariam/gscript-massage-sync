@@ -59,17 +59,22 @@ namespace MSheet {
                 const times = timeRange.getValues();
                 const names = nameRange.getValues();
                 for (let y = 0; y < times.length; y++) {
-                    let time = String(times[y][0]);
-                    if (time.includes("dőpontra vár")) {
-                        console.warn("Hit a block in times: ", time)
+                    const rawTime = String(times[y][0]);
+                    if (rawTime.includes("dőpontra vár")) {
+                        console.warn("Hit a block in times: ", rawTime)
                         break
                     }
                     const name = String(names[y][0]);
+                    const time = MUtils.parseTime(rawTime)
+
                     sheetInfo.push({
                         massagistName: massagistName,
                         name: name,
                         day: msgDayData.day,
-                        time: MUtils.parseTime(time),
+                        _time: time,
+                        startTime: MUtils.createDate(time.startH, time.startM, msgDayData.day - 1),
+                        endTime: MUtils.createDate(time.endH, time.endM, msgDayData.day - 1),
+                        isFree: name.trim() === "",
                     })
                 }
             }

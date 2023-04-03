@@ -4,9 +4,10 @@
 
 namespace MCalendar {
     const EVENT_DIFF_STATUS = {
-        FOUND_EMPTY_SLOT: "foundEmptySlot",
-        HAS_DIFFERENT_EVENT: "hasDifferentEvent",
-        ALREADY_ADDED: "alreadyAdded",
+        FOUND_EMPTY_SLOT_TO_FILL: "FOUND_EMPTY_SLOT_TO_FILL",
+        HAS_DIFFERENT_EVENT: "HAS_DIFFERENT_EVENT",
+        ALREADY_ADDED: "ALREADY_ADDED",
+        OPEN_SLOT: "OPEN_SLOT",
     }
 
     export function isAfterThursday() {
@@ -35,9 +36,9 @@ namespace MCalendar {
         return { guests: mailaddress };
     }
 
-    function _calcEventDiff(title: string, startTime: Date, endTime: Date, eventsForDay: GoogleAppsScript.Calendar.CalendarEvent[], massagist: string): [string, T.EventsToDelete] {
+    function _calcEventDiff(title: string, startTime: Date, endTime: Date, emptySlot: boolean, eventsForDay: GoogleAppsScript.Calendar.CalendarEvent[], massagist: string): [string, T.EventsToDelete] {
         if (!eventsForDay || eventsForDay.length === 0) {
-            return [EVENT_DIFF_STATUS.FOUND_EMPTY_SLOT, null]
+            return [EVENT_DIFF_STATUS.FOUND_EMPTY_SLOT_TO_FILL, null]
         }
         const readableEventList = eventsForDay.map((e, i) => {
             return {
@@ -49,21 +50,26 @@ namespace MCalendar {
                 originalEvent: e,
             }
         })
-        // Logger.log("evtlist", readableEventList.map(e=> ({s: +e.start, e: +e.end, ss: +startTime, ee: +endTime, t:e.title, tt:title})))
         const textMassagist = _markMassagist(massagist)
+        if (!Config.flags.createEventsForEmptySlots && emptySlot) {
+            // NOTE: remove events that are in the empty slot, and return without adding anything new
+            const findEventForThatTime = readableEventList.filter(e => (+e.start === +startTime) && (+e.end === +endTime))
+            return [EVENT_DIFF_STATUS.OPEN_SLOT, findEventForThatTime.map(e => e.originalEvent)]
+        }
+        // Logger.log("evtlist", readableEventList.map(e=> ({s: +e.start, e: +e.end, ss: +startTime, ee: +endTime, t:e.title, tt:title})))
         const toBeRemoved = readableEventList.filter(e => {
-            return (e.title.indexOf(textMassagist) > -1) && (+e.start === +startTime) && (+e.end === +endTime) && (e.title !== title) // e.guests.contains(guest)
+            return (e.title.includes(textMassagist)) && (+e.start === +startTime) && (+e.end === +endTime) && (e.title !== title) // e.guests.contains(guest)
         })
         if (toBeRemoved.length > 0) {
             return [EVENT_DIFF_STATUS.HAS_DIFFERENT_EVENT, toBeRemoved.map(e => e.originalEvent)]
         }
         const alreadyAdded = readableEventList.filter(e => {
-            return (e.title.indexOf(textMassagist) > -1) && (+e.start === +startTime) && (+e.end === +endTime) && (e.title === title) // e.guests.contains(guest)
+            return (e.title.includes(textMassagist)) && (+e.start === +startTime) && (+e.end === +endTime) && (e.title === title) // e.guests.contains(guest)
         })
         if (alreadyAdded.length > 0) {
             return [EVENT_DIFF_STATUS.ALREADY_ADDED, null]
         }
-        return [EVENT_DIFF_STATUS.FOUND_EMPTY_SLOT, null]
+        return [EVENT_DIFF_STATUS.FOUND_EMPTY_SLOT_TO_FILL, null]
     }
 
     export function getEventsInfo(calendar: T.Calendar, sheetInfo: T.SheetInfo[]) {
@@ -84,18 +90,16 @@ namespace MCalendar {
         let eventsToAdd = []
         let eventsToDelete = []
         for (let line of sheetInfo) {
-            let time = line.time
-            let startTime = MUtils.createDate(time.startH, time.startM, line.day - 1)
-            let endTime = MUtils.createDate(time.endH, time.endM, line.day - 1)
-            let title = _createEventTitle(line.massagistName, line.name)
-            let options = _createGuestList(line.name)
-            let currEvt: T.EventToAdd = {
-                startTime: startTime,
-                endTime: endTime,
+            const title = _createEventTitle(line.massagistName, line.name)
+            const options = _createGuestList(line.name)
+            const currEvt: T.EventToAdd = {
+                startTime: line.startTime,
+                endTime: line.endTime,
                 title: title,
                 options: options
             };
-            let [eventDiff, otherEvts] = _calcEventDiff(title, startTime, endTime, collectEvents[line.day - 1], line.massagistName)
+            const currentDay = line.day - 1
+            const [eventDiff, otherEvts] = _calcEventDiff(title, line.startTime, line.endTime, line.isFree, collectEvents[currentDay], line.massagistName)
             // Logger.log("evtInfo", title, startTime, endTime, eventDiff)
             switch (eventDiff) {
                 case EVENT_DIFF_STATUS.HAS_DIFFERENT_EVENT: {
@@ -103,7 +107,11 @@ namespace MCalendar {
                     eventsToAdd.push(currEvt)
                     break;
                 }
-                case EVENT_DIFF_STATUS.FOUND_EMPTY_SLOT: {
+                case EVENT_DIFF_STATUS.OPEN_SLOT: {
+                    eventsToDelete = eventsToDelete.concat(otherEvts)
+                    break;
+                }
+                case EVENT_DIFF_STATUS.FOUND_EMPTY_SLOT_TO_FILL: {
                     eventsToAdd.push(currEvt)
                     break;
                 }

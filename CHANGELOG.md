@@ -14,6 +14,7 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 - skip code execution after thursday
 - fix file build order
 - get week info for sheets
+- do not create events for open slots
 
 ## [0.0.2] - 2023-03-31
 
