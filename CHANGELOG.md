@@ -10,6 +10,7 @@ Used keywords can be: `Added`, `Changed`, `Removed`, `Fixed`
 
 ## [Unreleased]
 
+- skip after work hours
 
 ## [0.0.3] - 2023-04-03
 

@@ -7,6 +7,10 @@ function main() {
     Logger.log("Skip code execution from friday to the weekend...")
     return
   }
+  if (Config.flags.skipAfterWorkHours && MCalendar.isAfterWorkHours()) {
+    Logger.log("Skip code execution after work hours...")
+    return
+  }
   const calendar = CalendarApp.getCalendarById(Config.calendarId);
   const sheet = MSheet.getSheetById(Config.sheetId)
 

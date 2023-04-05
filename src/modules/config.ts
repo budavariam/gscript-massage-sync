@@ -12,6 +12,7 @@ namespace Config {
         ignorePastDays: true,
         InviteEveryoneByEmailPrefix: false,
         skipAfterThursday: true,
+        skipAfterWorkHours: true,
         createEventsForEmptySlots: false,
     }
 }

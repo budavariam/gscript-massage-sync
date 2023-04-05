@@ -17,6 +17,12 @@ namespace MCalendar {
         return dayOfWeek == 0 || dayOfWeek > 4;
     }
 
+    export function isAfterWorkHours() {
+        const today = new Date()
+        const currentHour = today.getUTCHours()
+        return currentHour <= 6 && currentHour >= 17
+    }
+
     function _createEventTitle(massagist: string, name: string): string {
         return `Masszázs ${_markMassagist(massagist)} ${name}`
     }
